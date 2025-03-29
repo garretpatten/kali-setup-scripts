@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cliTools=("alacritty" "bat" "curl" "exa" "eza" "fd" "htop" "jq" "neovim" "openvpn" "ripgrep" "terminator" "tmux" "vim" "wget" "zsh")
+cliTools=("alacritty" "bat" "curl" "exa" "eza" "fd" "htop" "jq" "neovim" "openvpn" "ripgrep" "terminator" "tmux" "vim" "wget")
 for cliTool in "${cliTools[@]}"; do
     if [[ ! -f "/usr/bin/$cliTool" && ! -f "/usr/sbin/$cliTool" ]]; then
         sudo apt install "$cliTool" -y

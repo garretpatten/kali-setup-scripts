@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Remove unneeded directories.
+# Remove unneeded directories
 directoriesToRemove=("Music" "Public" "Templates")
 for directoryToRemove in "${directoriesToRemove[@]}"; do
     if [[ -d "$HOME/$directoryToRemove/" ]]; then
@@ -10,8 +10,8 @@ for directoryToRemove in "${directoriesToRemove[@]}"; do
     fi
 done
 
-# Add needed directories.
-directoriesToCreate=("AppImages" "Books" "Games" "Hacking" "Projects" "Writing")
+# Add needed directories
+directoriesToCreate=("AppImages" "Hacking" "Projects")
 for directoryToCreate in "${directoriesToCreate[@]}"; do
     if [[ -d "$HOME/$directoryToCreate/" ]]; then
         echo "$HOME/$directoryToCreate is already created."
