@@ -1,85 +1,35 @@
 # Linux Setup Scripts
-- A repository of setup scripts for my personal debian linux environments
 
-# Instructions
+This repository contains a collections of scripts that I use to set up my personal Kali Linux environments.
 
 ## How to Use
+
+Clone the repository
+
+```bash
+git clone https://github.com/garretpatten/kali-setup-scripts.git
 ```
-# Clone repository
-git clone https://github.com/garretpatten/arch-setup-scripts
 
-# Checkout repository
-cd arch-setup-scripts
+Checkout the root of the project
 
-# Initialize submodules
-git submodule init
-git submodule update --remote --recursive
-cd src/dotfiles
-git submodule init
-git submodule update --remote --recursive
+```bash
+cd kali-setup-scripts
+```
 
-# Return to the root of the project
-cd ../..
+Update submodules
 
-# Run master script
+```bash
+git submodule update --init --remote --recursive src/dotfiles/
+```
+
+Make the scripts executable
+
+```bash
+chmod +x src/scripts/*.sh
+```
+
+Run the master script
+
+```bash
 bash src/scripts/master.sh
 ```
-
-# Installations
-
-## CLI Tools and Terminal Applications
-- bat
-- clamav
-- curl
-- docker
-- docker-compose
-- exa
-- fastfetch
-- fd
-- flatpak
-- gh
-- git
-- htop
-- neovim
-- nmap
-- node
-- npm
-- openvpn
-- ripgrep
-- semgrep
-- shellcheck
-- src-cli
-- task
-- tmux
-- ufw
-- vim
-- wget
-- zsh
-
-# Configurations
-- Alacritty
-- Git Credential Helper
-- Home Directory
-- Neovim
-- Taskwarrior
-- Vim
-- VS Code
-- Z-shell
-
-## Desktop Applications
-- 1Password
-- Alacritty
-- Brave
-- Burp Suite
-- Postman
-- Proton VPN
-- Signl Messenger
-- Sourcegraph
-- Spotify
-- Todoist
-- VLC Media Player
-- VS Code
-- ZAProxy
-
-# Other
-- Hacking Wordlists
