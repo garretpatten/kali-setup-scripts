@@ -1,26 +1,23 @@
 #!/bin/bash
 
-sh "$(pwd)/src/scripts/pre-install.sh"
+bash "$(pwd)/src/scripts/pre-install.sh"
 
 # Home directory customization
-sh "$(pwd)/src/scripts/organizeHome.sh"
+bash "$(pwd)/src/scripts/organizeHome.sh"
 
 # CLI tools
-sh "$(pwd)/src/scripts/cli.sh"
+bash "$(pwd)/src/scripts/cli.sh"
 
 # Dev tools
-sh "$(pwd)/src/scripts/dev.sh"
+bash "$(pwd)/src/scripts/dev.sh"
 
 # Browsers, streaming, and video applications
-sh "$(pwd)/src/scripts/media.sh"
-
-# Productivity programs
-sh "$(pwd)/src/scripts/productivity.sh"
+bash "$(pwd)/src/scripts/media.sh"
 
 # Security and penetration testing utilities
-sh "$(pwd)/src/scripts/security.sh"
+bash "$(pwd)/src/scripts/security.sh"
 
 # Shell setup
-zsh "$(pwd)/src/scripts/shell.sh"
+bash "$(pwd)/src/scripts/shell.sh"
 
-sh "$(pwd)/src/scripts/post-install.sh"
+bash "$(pwd)/src/scripts/post-install.sh"

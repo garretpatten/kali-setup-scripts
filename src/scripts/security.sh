@@ -5,7 +5,7 @@ source "$(pwd)/src/scripts/utils.sh"
 ### Authentication & Secrets Management ###
 
 # 1Password
-if [[ ! -f "/usr/bin/1password" ]]; then
+if ! is_installed "op"; then
     # 1Password desktop app
     curl -sSO https://downloads.1password.com/linux/tar/stable/x86_64/1password-latest.tar.gz
     sudo tar -xf 1password-latest.tar.gz
@@ -42,17 +42,20 @@ sudo ufw enable
 
 # Open VPN
 if ! is_installed "openvpn"; then
-    brew install openvpn
+    sudo apt-get install openvpn -y
 fi
 
 # Proton VPN, Proton VPN CLI, and system tray icon
 if [[ ! -f "/usr/bin/protonvpn" ]]; then
     sudo apt install gnome-shell -y
+    currentWorkingDirectory=$(pwd)
+    cd "$HOME/Downloads/" || return
     wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.8_all.deb
     sudo dpkg -i ./protonvpn-stable-release_1.0.8_all.deb && sudo apt update -y
     echo "0b14e71586b22e498eb20926c48c7b434b751149b1f2af9902ef1cfe6b03e180 protonvpn-stable-release_1.0.8_all.deb" | sha256sum --check - || {
         echo "Failed to verify Proton VPN package." >> "$ERROR_FILE";
     }
+    cd "$currentWorkingDirectory" || return
     sudo apt install proton-vpn-gnome-desktop -y
     sudo apt install libayatana-appindicator3-1 gir1.2-ayatanaappindicator3-0.1 gnome-shell-extension-appindicator -y
 fi

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$(pwd)/src/scripts/utils.sh"
+
 ### Runtimes ###
 
 # Node, npm, and nvm
@@ -20,7 +22,7 @@ fi
 ### Dev Tools ###
 
 # Docker and Docker-Compose
-if [[ "$packageManager" = "apt-get" ]]; then
+if ! is_installed "docker"; then
     sudo apt-get update -y
     sudo apt-get install apt-transport-https ca-certificates software-properties-common -y
     sudo apt-get install docker.io -y
@@ -31,22 +33,35 @@ if [[ "$packageManager" = "apt-get" ]]; then
 fi
 
 # GitHub CLI
-if [[ ! -f "/usr/local/bin/gh" ]]; then
-    sudo apt install gh -y
+if ! is_installed "gh"; then
+    sudo apt-get install gh -y
 fi
 
+# Neovim
+if ! is_installed "nvim"; then
+    sudo apt-get install nvim -y
+fi
+
+# Packer
+git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+ "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" || {
+    echo "Failed to clone https://github.com/wbthomason/packer.nvim" >> "$ERROR_FILE";
+}
+
 # Postman
-if [[ "$packageManager" = "dnf" ]]; then
+if [[ ! -d "/var/lib/flatpak/app/com.getpostman.Postman" ]]; then
     flatpak install flathub com.getpostman.Postman -y
 fi
 
 # Semgrep
-if [[ ! -f "$HOME/.local/bin/semgrep" ]]; then
+if ! is_installed "semgrep"; then
     python -m pip install semgrep
 fi
 
 # Shellcheck
-sudo apt install shellcheck -y
+if ! is_installed "shellcheck"; then
+    sudo apt-get install shellcheck -y
+fi
 
 ### Configuration ###
 
@@ -60,6 +75,17 @@ if [[ ! -f "$HOME/.gitconfig" ]]; then
     git config --global pull.rebase false
 fi
 
-# TODO: Add vim config
+# Neovim
+if [[ ! -d "$HOME/.config/nvim/" ]]; then
+    mkdir -p "$HOME/.config/nvim/"
+    cp -r "$(pwd)/src/dotfiles/nvim/" "$HOME/.config/nvim/" || {
+        echo "Failed to configure Neovim." >> "$ERROR_FILE";
+    }
+fi
 
-# TODO: Add nvim config
+# Vim
+if [[ ! -f "$HOME/.vimrc" ]]; then
+    cp "$(pwd)/src/dotfiles/vim/.vimrc" "$HOME/.vimrc" || {
+        echo "Failed to configure Vim." >> "$ERROR_FILE";
+    }
+fi

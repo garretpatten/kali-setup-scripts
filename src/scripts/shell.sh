@@ -6,33 +6,33 @@ source "$(pwd)/src/scripts/utils.sh"
 
 # Alacritty
 if ! is_installed "alacritty"; then
-    sudo apt install alacritty -y
+    sudo apt-get install alacritty -y
 fi
 
 # Z Shell
 if ! is_installed "zsh"; then
-    sudo apt install zsh -y
+    sudo apt-get install zsh -y
 fi
 
 ### Fonts ###
 
 # Awesome Terminal Fonts
 if [[ ! -d "/usr/share/fonts/awesome-terminal-fonts/" ]]; then
-    # TODO
+    sudo apt-get install fonts-font-awesome -y
 fi
 
 # Fira Code Fonts
 if [[ ! -d "/usr/share/fonts/FiraCode/" ]]; then
-    sudo apt install fonts-firacode -y
+    sudo apt-get install fonts-firacode -y
 fi
 
 if [[ ! -d "/usr/share/fonts/TTF/" ]]; then
-    # TODO
+    sudo apt-get install fonts-freefont-ttf -y
 fi
 
 # Powerline Fonts
 if [[ ! -d "/usr/share/fonts/OTF/" ]]; then
-    sudo apt install fonts-powerline -y
+    sudo apt-get install fonts-powerline -y
 fi
 
 ### Plugins ###
@@ -44,17 +44,17 @@ fi
 
 # Tmux
 if ! is_installed "tmux"; then
-    sudo apt install tmux -y
+    sudo apt-get install tmux -y
 fi
 
 # Zsh Autosuggestions
 if [[ ! -d "/usr/share/zsh/plugins/zsh-autosuggestions/" ]]; then
-    sudo apt install zsh-autosuggestions -y
+    sudo apt-get install zsh-autosuggestions -y
 fi
 
 # Zsh Syntax Highlighting
 if [[ ! -d "/usr/share/zsh/plugins/zsh-syntax-highlighting/" ]]; then
-    sudo apt install zsh-syntax-highlighting -y
+    sudo apt-get install zsh-syntax-highlighting -y
 fi
 
 ### Terminal Configuration ###

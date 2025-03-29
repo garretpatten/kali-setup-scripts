@@ -7,10 +7,10 @@ fi
 
 # Spotify
 if [[ ! -d "/usr/bin/spotify-launcher" ]]; then
-    sudo apt install spotify-launcher -y
+    sudo apt-get install spotify-launcher -y
 fi
 
 # VLC
 if [[ ! -f "/usr/bin/vlc" ]]; then
-    sudo apt install vlc -y
+    sudo apt-get install vlc -y
 fi
