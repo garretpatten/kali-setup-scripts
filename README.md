@@ -33,3 +33,93 @@ Run the master script
 ```bash
 bash src/scripts/master.sh
 ```
+
+## Configurations
+
+- Alacritty
+- Git
+- Firewall
+- Neovim
+- System
+- Tmux
+- Vim
+- Z Shell
+
+## Downloads
+
+### Payload Lists
+
+- [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
+- [SecLists](https://github.com/danielmiessler/SecLists)
+
+## Installations
+
+### Development
+
+- docker
+- docker-compose
+- gh
+- neovim
+- nod
+- npm
+- nvm
+- Postman
+- python
+- pip
+- semgrep
+- shellcheck
+
+### Fonts
+
+- Awesome Terminal Fonts
+- Fira Code Fonts
+- Meslo Nerd Fonts
+- Powerline Fonts (and Symbols)
+
+### General CLI Tools
+
+- bat
+- curl
+- eza
+- fastfetch
+- fdfind
+- git
+- htop
+- jq
+- ripgrep
+- tmux
+- vim
+- wget
+
+### Media
+
+- Brave
+- Spotify
+- VLC
+
+### Security
+
+- 1Password
+- clamscan
+- op
+- openvpn
+- OWASP ZAP
+- Proton VPN
+- Signal Messenger
+
+### Shell
+
+- Alacritty
+- oh-my-posh
+- zsh
+- Zsh Auto Suggestions
+- Zsh Syntax Highlighting
+
+## Maintainers
+
+[@garretpatten](https://github.com/garretpatten/)
+
+*For questions, bug reports, or feature requests, please open an issue on this repository or contact the maintainer directly.*
+
+## License
+This project is licensed under the [MIT License](./LICENSE).
