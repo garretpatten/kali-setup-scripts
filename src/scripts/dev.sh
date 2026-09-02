@@ -63,6 +63,11 @@ if ! is_installed "shellcheck"; then
     sudo apt-get install shellcheck -y
 fi
 
+# Go
+if ! is_installed "go"; then
+    sudo apt-get install golang -y
+fi
+
 # Language servers for opencode
 if command -v npm >/dev/null 2>&1; then
     sudo npm install -g bash-language-server pyright typescript-language-server yaml-language-server 2>>"$ERROR_FILE" || true
