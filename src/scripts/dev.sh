@@ -75,6 +75,20 @@ if [[ ! -f "$HOME/.gitconfig" ]]; then
     git config --global pull.rebase false
 fi
 
+# Shared Git pre-commit hook
+if [[ ! -d "$HOME/.config/githooks" ]]; then
+    mkdir -p "$HOME/.config/githooks/"
+    cp "$(pwd)/src/dotfiles/config/githooks/pre-commit" "$HOME/.config/githooks/pre-commit" || {
+        echo "Failed to configure Git pre-commit hook." >> "$ERROR_FILE";
+    }
+    chmod +x "$HOME/.config/githooks/pre-commit" || true
+fi
+if ! git config --global core.hooksPath >/dev/null 2>&1; then
+    git config --global core.hooksPath "$HOME/.config/githooks" || {
+        echo "Failed to configure Git hooks path." >> "$ERROR_FILE";
+    }
+fi
+
 # Neovim
 if [[ ! -d "$HOME/.config/nvim/" ]]; then
     mkdir -p "$HOME/.config/nvim/"
