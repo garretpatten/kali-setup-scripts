@@ -63,6 +63,35 @@ if ! is_installed "shellcheck"; then
     sudo apt-get install shellcheck -y
 fi
 
+# Language servers for opencode
+if command -v npm >/dev/null 2>&1; then
+    sudo npm install -g bash-language-server pyright typescript-language-server yaml-language-server 2>>"$ERROR_FILE" || true
+fi
+
+if ! is_installed "lua-language-server"; then
+    latest_url=$(curl -sL -o /dev/null -w '%{url_effective}' --connect-timeout 10 --max-time 30 \
+        https://github.com/LuaLS/lua-language-server/releases/latest 2>>"$ERROR_FILE")
+    lls_version=${latest_url##*/}
+    if [[ -n "$lls_version" ]]; then
+        lls_tar="/tmp/lua-language-server-${lls_version}-linux-x64.tar.gz"
+        if curl -fsSL --connect-timeout 30 --max-time 300 \
+            "https://github.com/LuaLS/lua-language-server/releases/download/${lls_version}/lua-language-server-${lls_version}-linux-x64.tar.gz" \
+            -o "$lls_tar" 2>>"$ERROR_FILE"; then
+            lls_install_dir="$HOME/.local/share/lua-language-server"
+            mkdir -p "$lls_install_dir"
+            tar -xzf "$lls_tar" -C "$lls_install_dir" 2>>"$ERROR_FILE" || true
+            if [[ -f "$lls_install_dir/bin/lua-language-server" ]]; then
+                mkdir -p "$HOME/.local/bin"
+                cat > "$HOME/.local/bin/lua-language-server" <<EOF
+#!/bin/bash
+exec "$lls_install_dir/bin/lua-language-server" "\$@"
+EOF
+                chmod +x "$HOME/.local/bin/lua-language-server" 2>>"$ERROR_FILE" || true
+            fi
+        fi
+    fi
+fi
+
 ### Configuration ###
 
 # Git
