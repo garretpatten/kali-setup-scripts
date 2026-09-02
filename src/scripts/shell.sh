@@ -66,7 +66,7 @@ if [[ ! -d "$HOME/.config/alacritty/" ]]; then
         echo "Failed to clone https://github.com/alacritty/alacritty-theme." >> "$ERROR_FILE";
     }
     touch "$HOME/.config/alacritty/alacritty.toml"
-    cp "$workingDirectory/src/dotfiles/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml" || {
+    cp "$(pwd)/src/dotfiles/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml" || {
         echo "Failed to configure alacritty." >> "$ERROR_FILE";
     }
 fi
