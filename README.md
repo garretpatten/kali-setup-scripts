@@ -1,126 +1,141 @@
-# Linux Setup Scripts
+# Kali setup scripts
 
-This repository contains a collections of scripts that I use to set up my personal Kali Linux environments.
-
-## How to Use
-
-Clone the repository
-
-```bash
-git clone https://github.com/garretpatten/kali-setup-scripts.git
-```
-
-Checkout the root of the project
+Provisioning for a personal Kali Linux environment: install scripts under
+`src/scripts/install/`, dotfiles and system config under `src/scripts/config/`,
+orchestrated by `master.sh`. Kali is Debian-based, so apt and third-party Debian
+repos are used wherever possible, while Kali-specific security tooling is kept.
 
 ```bash
-cd kali-setup-scripts
+npm run all             # install + config
+npm run install:cli     # CLI-only install
+npm run install:all     # full install (CLI + desktop/native)
+npm run config          # config only (ensures submodules are up to date)
 ```
 
-Update submodules
+Direct bash equivalents (from `src/scripts/`):
 
 ```bash
-git submodule update --init --remote --recursive src/dotfiles/
+bash master.sh          # install + config
+bash run-install.sh cli # CLI-only install
+bash run-install.sh all # full install (default)
+bash run-config.sh      # config only
 ```
 
-Make the scripts executable
+CI runs four jobs on a `kalilinux/kali-rolling` container:
 
-```bash
-chmod +x src/scripts/*.sh
-```
+- `test-cli`: `run-install.sh cli` → `validate-installs-cli.sh`
+- `test-config`: `run-config.sh` → `validate-config-only.sh`
+- `test-full`: `run-install.sh all` → `validate-installs.sh`
+- `test-master`: `master.sh` → `validate.sh` (full installs + config)
 
-Run the master script
+Each validation script confirms the expected binaries/packages and config outcomes
+for that run mode.
 
-```bash
-bash src/scripts/master.sh
-```
+## Package manager preference
 
-## Configurations
+Each app uses one install path:
 
-- Alacritty
-- Git
-- Firewall
-- Neovim
-- System
-- Tmux
-- Vim
-- Z Shell
+1. **apt** when the package or vendor repo is available
+2. **snap** when apt does not provide it (Zoom, OWASP ZAP)
+3. **Upstream `.deb` or binary** only when neither apt nor snap applies (Etcher, Proton Pass, pass-cli, 1Password)
 
-## Downloads
+## Install layout
 
-### Payload Lists
+| Path                          | Role                                                                      |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| `install/preflight/`          | apt update, essentials (git, curl), timezone                              |
+| `install/all.sh`              | Full install orchestrator (`--cli` for CLI-only mode)                     |
+| `install/cli.sh`              | Thin wrapper that runs `install/all.sh --cli`                             |
+| `install/packages/*.packages` | One apt package per line; installed by `install/all.sh`                   |
+| `install/repos/manifest`      | Third-party apt repo definitions consumed by `install/repos/setup.sh`     |
+| `install/snaps.txt`           | Snap packages installed by `install/apps/snaps.sh`                        |
+| `install/apps/`               | `.deb` downloads and app-specific installers                              |
+| `install/dev/`                | NodeSource, nvm, LSP language stacks, Docker, rustup, gems, pip/npm tools |
+| `install/shell/`              | Ghostty, Meslo font, Oh My Posh                                           |
+| `install/post-install/`       | apt maintain, Docker service, tldr cache, completion banner               |
 
-- [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
-- [SecLists](https://github.com/danielmiessler/SecLists)
+### Validation scripts (`scripts/`)
 
-## Installations
+| Script                     | Use with                                   |
+| -------------------------- | ------------------------------------------ |
+| `validate-installs-cli.sh` | After `run-install.sh cli`                 |
+| `validate-installs.sh`     | After `run-install.sh all` or `master.sh`  |
+| `validate-config-only.sh`  | After `run-config.sh`                      |
+| `validate-config.sh`       | After `master.sh` or full install + config |
+| `validate.sh`              | After `master.sh` (installs + config)      |
 
-### Development
+### Package lists (`install/packages/`)
 
-- docker
-- docker-compose
-- gh
-- neovim
-- nod
-- npm
-- nvm
-- Postman
-- python
-- pip
-- semgrep
-- shellcheck
+| File                           | Contents                                                                                |
+| ------------------------------ | --------------------------------------------------------------------------------------- |
+| `base.packages`                | CLI and security tools (bat, fzf, gh, jq, ripgrep, tldr/tealdeer, ufw, nmap, clamav, …) |
+| `shell.packages`               | zsh, tmux, fonts, plugins                                                               |
+| `media.packages`               | vlc, ffmpeg, gstreamer                                                                  |
+| `desktop.packages`             | GNOME Tweaks, shell extensions                                                          |
+| `productivity.packages`        | LibreOffice, KeePassXC, Redshift, Flameshot                                             |
+| `lsp.packages`                 | Mason LSP runtimes (Go, Ruby, PHP, Lua, …)                                              |
+| `lsp-optional.packages`        | Julia (skipped when unavailable on apt)                                                 |
+| `dev.packages`                 | Neovim, Python                                                                          |
+| `griffo.packages`              | yazi, lazygit, lazydocker ([debian.griffo.io](https://debian.griffo.io/apt))            |
+| `fastfetch.packages`           | fastfetch (Kali/Debian repos)                                                           |
+| `third-party-cli.packages`     | Docker CE/Compose, Node.js (NodeSource)                                                 |
+| `third-party-desktop.packages` | Brave, Bruno, Signal Desktop, appindicator libs                                         |
 
-### Fonts
+### Apps (`install/apps/`)
 
-- Awesome Terminal Fonts
-- Fira Code Fonts
-- Meslo Nerd Fonts
-- Powerline Fonts (and Symbols)
+Brave, Chrome, Signal, Proton VPN/Pass, Bruno, Zoom, Etcher, OWASP ZAP, ufw-docker,
+1Password, Hacking git clones — each script handles its own repo or `.deb` when apt lists are
+not enough.
 
-### General CLI Tools
+### Development (`install/dev/`)
 
-- bat
-- curl
-- eza
-- fastfetch
-- fdfind
-- git
-- htop
-- jq
-- ripgrep
-- tmux
-- vim
-- wget
+Node.js (NodeSource), nvm, Docker CE + Compose, rustup, Solargraph gem, Semgrep,
+Vue CLI, Cursor Agent CLI.
 
-### Media
+### Preflight & post-install
 
-- Brave
-- Google Chrome
-- Spotify
-- VLC
+- apt update/upgrade, essentials, timezone (Eastern)
+- Docker service enabled; UFW rules in `config/security/` (LocalSend, Docker DNS, ufw-docker)
 
-### Security
+## Kali-specific additions
 
-- 1Password
-- clamscan
-- op
-- openvpn
-- OWASP ZAP
-- Proton VPN
-- Signal Messenger
+| Tool                     | Where it lives                              |
+| ------------------------ | ------------------------------------------- |
+| 1Password (desktop + op) | `install/apps/1password.sh`                 |
+| ClamAV                   | `install/packages/base.packages` (`clamav`) |
+| OWASP ZAP                | `install/snaps.txt` (`zaproxy`)             |
+| PayloadsAllTheThings     | `install/apps/hacking-repos.sh`             |
+| SecLists                 | `install/apps/hacking-repos.sh`             |
+| nmap                     | `install/packages/base.packages`            |
 
-### Shell
+## Explicitly not installed
 
-- Alacritty
-- oh-my-posh
-- zsh
-- Zsh Auto Suggestions
-- Zsh Syntax Highlighting
+These are **not** provisioned by this repo (remove from old notes or other dotfiles if you still expect them):
+
+| Removed / never included                    | Notes                                                         |
+| ------------------------------------------- | ------------------------------------------------------------- |
+| **Postman**                                 | Replaced by **Bruno**                                         |
+| **Sourcegraph CLI (`sg`)**                  | Removed; use Bruno or other tooling                           |
+| **Spotify**                                 | Not provisioned; install manually if needed                   |
+| GNOME apps via random snaps                 | Not provisioned                                               |
+| Full IDE bundles (VS Code, JetBrains, etc.) | Dotfiles may reference extensions; install editors separately |
+
+## Configuration (`src/scripts/config/`)
+
+Symlinks and settings from `src/dotfiles` (submodule, read-only): `config/dotfiles.sh`
+symlinks each `config/<app>/` tree under `~/.config/` (including `zsh/` for OS-specific
+shell snippets); copies for shell home files and VS Code settings. Covers Neovim, btop,
+fastfetch, Kitty/Alacritty/Ghostty, Git, GNOME gsettings (skipped in CI without a GNOME
+session), UFW defaults and rules (LocalSend, Docker DNS, ufw-docker), home directory layout.
+
+See [AGENTS.md](AGENTS.md) for contributor conventions, ShellCheck, and CI details.
 
 ## Maintainers
 
 [@garretpatten](https://github.com/garretpatten/)
 
-_For questions, bug reports, or feature requests, please open an issue on this repository or contact the maintainer directly._
+_For questions, bug reports, or feature requests, please open an issue on this
+repository or contact the maintainer directly._
 
 ## License
 
