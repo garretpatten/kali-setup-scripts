@@ -31,12 +31,15 @@ ASYNC_SCRIPTS=(
     dev/nvm.sh
     dev/rustup.sh
     dev/cursor-cli.sh
+    dev/lazydocker.sh
+    dev/yazi.sh
     dev/ollama.sh
     dev/semgrep.sh
     dev/ruby-gems.sh
     dev/vue-cli.sh
     dev/language-servers.sh
     dev/go.sh
+    shell/ghostty.sh
     shell/meslo-nerd-font.sh
     shell/oh-my-posh.sh
     apps/hacking-repos.sh
@@ -96,9 +99,6 @@ fi
 echo "==> Installing dev and language packages..."
 install_apt_packages_from_file "$DIR/packages/lsp.packages"
 install_apt_packages_from_file "$DIR/packages/dev.packages"
-
-echo "==> Installing extra apt packages..."
-install_apt_packages_from_file optional "$DIR/packages/griffo.packages"
 
 if is_desktop; then
     install_apt_packages_from_file "$DIR/packages/optional-desktop.packages" optional

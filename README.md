@@ -66,19 +66,18 @@ Each app uses one install path:
 
 ### Package lists (`install/packages/`)
 
-| File                           | Contents                                                                                         |
-| ------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `base.packages`                | CLI and security tools (bat, fzf, zaproxy, jq, ripgrep, tldr/tealdeer, ufw, nmap, clamav, …)     |
-| `shell.packages`               | zsh, tmux, fonts, plugins                                                                        |
-| `media.packages`               | vlc, ffmpeg, gstreamer                                                                           |
-| `desktop.packages`             | GNOME Tweaks, shell extensions                                                                   |
-| `productivity.packages`        | LibreOffice, KeePassXC, Redshift, Flameshot                                                      |
-| `lsp.packages`                 | Mason LSP runtimes (Go, Ruby, PHP, Lua, …)                                                       |
-| `lsp-optional.packages`        | Julia (skipped when unavailable on apt)                                                          |
-| `dev.packages`                 | Neovim, Python                                                                                   |
-| `griffo.packages`              | yazi, lazygit, lazydocker, fastfetch, ghostty ([debian.griffo.io](https://debian.griffo.io/apt)) |
-| `third-party-cli.packages`     | Docker CE/Compose, Node.js (NodeSource)                                                          |
-| `third-party-desktop.packages` | Brave, Bruno, Signal Desktop, appindicator libs                                                  |
+| File                           | Contents                                                                                     |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
+| `base.packages`                | CLI and security tools (bat, fzf, zaproxy, jq, ripgrep, tldr/tealdeer, ufw, nmap, clamav, …) |
+| `shell.packages`               | zsh, tmux, fonts, plugins                                                                    |
+| `media.packages`               | vlc, ffmpeg, gstreamer                                                                       |
+| `desktop.packages`             | GNOME Tweaks, shell extensions                                                               |
+| `productivity.packages`        | LibreOffice, KeePassXC, Redshift, Flameshot                                                  |
+| `lsp.packages`                 | Mason LSP runtimes (Go, Ruby, PHP, Lua, …)                                                   |
+| `lsp-optional.packages`        | Julia (skipped when unavailable on apt)                                                      |
+| `dev.packages`                 | Neovim, Python                                                                               |
+| `third-party-cli.packages`     | Docker CE/Compose, Node.js (NodeSource), gh                                                  |
+| `third-party-desktop.packages` | Brave, Bruno, Signal Desktop, appindicator libs                                              |
 
 ### Apps (`install/apps/`)
 
@@ -91,6 +90,10 @@ not enough.
 Node.js (NodeSource), nvm, Docker CE + Compose, rustup, Solargraph gem, Semgrep,
 Vue CLI, Cursor Agent CLI.
 
+GitHub-release binaries (not in Kali/Debian repos): lazydocker (`dev/lazydocker.sh`),
+yazi (`dev/yazi.sh`), and Ghostty (`shell/ghostty.sh`, mkasberg amd64 .deb). lazygit
+and fastfetch come from Kali's own repositories via `base.packages`/`shell.packages`.
+
 ### Preflight & post-install
 
 - apt update/upgrade, essentials, timezone (Eastern)
@@ -98,14 +101,14 @@ Vue CLI, Cursor Agent CLI.
 
 ## Kali-specific additions
 
-| Tool                     | Where it lives                              |
-| ------------------------ | ------------------------------------------- |
-| 1Password (desktop + op) | `install/apps/1password.sh`                 |
-| ClamAV                   | `install/packages/base.packages` (`clamav`) |
-| OWASP ZAP                | `install/snaps.txt` (`zaproxy`)             |
-| PayloadsAllTheThings     | `install/apps/hacking-repos.sh`             |
-| SecLists                 | `install/apps/hacking-repos.sh`             |
-| nmap                     | `install/packages/base.packages`            |
+| Tool                     | Where it lives                               |
+| ------------------------ | -------------------------------------------- |
+| 1Password (desktop + op) | `install/apps/1password.sh`                  |
+| ClamAV                   | `install/packages/base.packages` (`clamav`)  |
+| OWASP ZAP                | `install/packages/base.packages` (`zaproxy`) |
+| PayloadsAllTheThings     | `install/apps/hacking-repos.sh`              |
+| SecLists                 | `install/apps/hacking-repos.sh`              |
+| nmap                     | `install/packages/base.packages`             |
 
 ## Explicitly not installed
 

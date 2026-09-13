@@ -20,7 +20,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
                 IFS='|' read -r _ key_url keyring_path list_path grep_pattern deb_line <<< "$line"
                 setup_repo_from_manifest_line "$kind" "$key_url" "$keyring_path" "$list_path" "$grep_pattern" "$deb_line"
                 ;;
-            bruno|griffo|nodesource)
+            bruno|nodesource)
                 setup_repo_from_manifest_line "$kind"
                 ;;
         esac
@@ -31,3 +31,7 @@ done < "$manifest"
 for pid in "${pids[@]}"; do
     wait "$pid" || true
 done
+
+# Remove the now-defunct griffo repo (subscription-only since 1 Oct 2026) if present.
+sudo rm -f /etc/apt/sources.list.d/debian.griffo.io.list \
+    /etc/apt/trusted.gpg.d/debian.griffo.io.gpg 2>/dev/null || true
