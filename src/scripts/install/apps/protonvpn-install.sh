@@ -15,7 +15,7 @@ if [[ ! -f "$protonvpn_deb" ]]; then
     exit 0
 fi
 
-if ! file "$protonvpn_deb" 2>/dev/null | grep -q "Debian binary"; then
+if ! dpkg-deb -I "$protonvpn_deb" >/dev/null 2>&1; then
     exit 0
 fi
 

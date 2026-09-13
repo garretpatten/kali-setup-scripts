@@ -34,10 +34,20 @@ add_repo_list_if_missing() {
     fi
 }
 
+apt_repo_codename() {
+    local host
+    host="$(lsb_release -si 2>/dev/null || echo "")"
+    if [[ "$host" == "Kali" ]]; then
+        echo trixie
+    else
+        lsb_release -cs 2>/dev/null || echo ""
+    fi
+}
+
 expand_repo_deb_line() {
     local deb_line="$1"
     deb_line="${deb_line//ARCH/$(dpkg --print-architecture)}"
-    deb_line="${deb_line//CODENAME/$(lsb_release -cs)}"
+    deb_line="${deb_line//CODENAME/$(apt_repo_codename)}"
     printf '%s' "$deb_line"
 }
 
@@ -66,13 +76,13 @@ setup_griffo_repo() {
             sudo gpg --dearmor --yes -o "$griffo_key" || true
     fi
 
-    local ubuntu_codename
-    ubuntu_codename="$(lsb_release -sc 2>/dev/null || echo "")"
-    if [[ -n "$ubuntu_codename" ]]; then
+    local codename
+    codename="$(apt_repo_codename)"
+    if [[ -n "$codename" ]]; then
         add_repo_list_if_missing \
             "/etc/apt/sources.list.d/debian.griffo.io.list" \
             debian.griffo.io \
-            "deb https://debian.griffo.io/apt $ubuntu_codename main"
+            "deb https://debian.griffo.io/apt $codename main"
     fi
 }
 

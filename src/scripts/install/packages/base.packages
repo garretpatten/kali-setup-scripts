@@ -1,5 +1,4 @@
 # CLI, security, and general apt tools. Preflight installs git/curl first.
-
 bat
 btop
 clamav
@@ -8,13 +7,12 @@ fd-find
 flatpak
 fzf
 gcc
-gh
 htop
 jq
-make
 libimage-exiftool-perl
 libsecret-1-0
 libsecret-1-dev
+make
 nmap
 openvpn
 pkg-config
@@ -27,6 +25,8 @@ ufw
 unattended-upgrades
 unzip
 vim
-whois
 wget
+whois
+zaproxy
 zoxide
+zstd

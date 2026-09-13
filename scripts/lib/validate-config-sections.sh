@@ -5,7 +5,7 @@
 validate_config_dotfiles() {
     section 'Dotfiles'
     check_path zshrc "$HOME/.zshrc"
-    check_path tmux-conf "$HOME/.tmux.conf"
+    check_path tmux-conf "$HOME/.config/tmux/tmux.conf"
     check_path vimrc "$HOME/.vimrc"
     check_path git-hooks-dir "$HOME/.config/githooks"
     check_path git-pre-commit "$HOME/.config/githooks/pre-commit"

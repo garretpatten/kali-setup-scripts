@@ -1,4 +1,3 @@
 # Snap packages (name [classic])
 
 zoom-client classic zoom
-zaproxy classic

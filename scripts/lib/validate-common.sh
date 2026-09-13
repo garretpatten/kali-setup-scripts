@@ -23,6 +23,12 @@ fail() {
     FAILURES=$((FAILURES + 1))
 }
 
+warn() {
+    local name="$1"
+    local detail="${2:-not found}"
+    printf '  WARN %-28s %s\n' "$name" "$detail" >&2
+}
+
 version_of() {
     local cmd=("$@")
     "${cmd[@]}" 2>/dev/null | head -n1 | tr -d '\r' || true

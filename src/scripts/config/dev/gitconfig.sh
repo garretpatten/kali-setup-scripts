@@ -3,6 +3,8 @@
 credential_helper="/usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret"
 if [[ -x "$credential_helper" ]]; then
     git config --global credential.helper "$credential_helper"
+elif ! git config --global credential.helper >/dev/null 2>&1; then
+    git config --global credential.helper store
 fi
 
 # Shared Git pre-commit hook (symlinked by config/dotfiles.sh)

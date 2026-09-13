@@ -66,20 +66,19 @@ Each app uses one install path:
 
 ### Package lists (`install/packages/`)
 
-| File                           | Contents                                                                                |
-| ------------------------------ | --------------------------------------------------------------------------------------- |
-| `base.packages`                | CLI and security tools (bat, fzf, gh, jq, ripgrep, tldr/tealdeer, ufw, nmap, clamav, …) |
-| `shell.packages`               | zsh, tmux, fonts, plugins                                                               |
-| `media.packages`               | vlc, ffmpeg, gstreamer                                                                  |
-| `desktop.packages`             | GNOME Tweaks, shell extensions                                                          |
-| `productivity.packages`        | LibreOffice, KeePassXC, Redshift, Flameshot                                             |
-| `lsp.packages`                 | Mason LSP runtimes (Go, Ruby, PHP, Lua, …)                                              |
-| `lsp-optional.packages`        | Julia (skipped when unavailable on apt)                                                 |
-| `dev.packages`                 | Neovim, Python                                                                          |
-| `griffo.packages`              | yazi, lazygit, lazydocker ([debian.griffo.io](https://debian.griffo.io/apt))            |
-| `fastfetch.packages`           | fastfetch (Kali/Debian repos)                                                           |
-| `third-party-cli.packages`     | Docker CE/Compose, Node.js (NodeSource)                                                 |
-| `third-party-desktop.packages` | Brave, Bruno, Signal Desktop, appindicator libs                                         |
+| File                           | Contents                                                                                         |
+| ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `base.packages`                | CLI and security tools (bat, fzf, zaproxy, jq, ripgrep, tldr/tealdeer, ufw, nmap, clamav, …)     |
+| `shell.packages`               | zsh, tmux, fonts, plugins                                                                        |
+| `media.packages`               | vlc, ffmpeg, gstreamer                                                                           |
+| `desktop.packages`             | GNOME Tweaks, shell extensions                                                                   |
+| `productivity.packages`        | LibreOffice, KeePassXC, Redshift, Flameshot                                                      |
+| `lsp.packages`                 | Mason LSP runtimes (Go, Ruby, PHP, Lua, …)                                                       |
+| `lsp-optional.packages`        | Julia (skipped when unavailable on apt)                                                          |
+| `dev.packages`                 | Neovim, Python                                                                                   |
+| `griffo.packages`              | yazi, lazygit, lazydocker, fastfetch, ghostty ([debian.griffo.io](https://debian.griffo.io/apt)) |
+| `third-party-cli.packages`     | Docker CE/Compose, Node.js (NodeSource)                                                          |
+| `third-party-desktop.packages` | Brave, Bruno, Signal Desktop, appindicator libs                                                  |
 
 ### Apps (`install/apps/`)
 
