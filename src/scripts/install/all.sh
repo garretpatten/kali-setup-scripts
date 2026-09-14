@@ -21,7 +21,6 @@ is_desktop() {
 PACKAGES=()
 REPO_PIDS=()
 ASYNC_PIDS=()
-DEB_PIDS=()
 
 REPO_SCRIPTS=(
     repos/setup.sh
@@ -126,10 +125,10 @@ echo "==> Asynchronous tasks completed."
 
 if is_desktop; then
     echo "==> Installing .deb packages..."
+    # Sequential: concurrent dpkg/apt runs contend on the dpkg lock and drop installs.
     for script in "${DEB_SCRIPTS[@]}"; do
-        DEB_PIDS+=("$(parallel_run_best_effort "$DIR/$script")")
+        run_script "$DIR/$script"
     done
-    parallel_wait_pids_best_effort ".deb package install" "${DEB_PIDS[@]}"
 fi
 
 run_script "$DIR/apps/pass-cli.sh"
