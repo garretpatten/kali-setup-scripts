@@ -13,10 +13,4 @@ source "$DIR/lib/zsh-login.sh"
 ensure_submodules_synced "$PROJECT_ROOT"
 ensure_zshrc_login_safe
 
-run_script "$DIR/install/preflight/all.sh"
-run_script "$DIR/config/system/all.sh"
-run_script "$DIR/config/home/all.sh"
-run_script "$DIR/install/all.sh"
-run_script "$DIR/config/dev/all.sh"
-run_script "$DIR/config/security/all.sh"
-run_script "$DIR/config/shell/all.sh"
+run_script "$DIR/config/all.sh"
