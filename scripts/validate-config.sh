@@ -10,6 +10,7 @@ source scripts/lib/validate-common.sh
 source scripts/lib/validate-config-sections.sh
 
 validate_config_dotfiles
+validate_config_tmux
 validate_config_home
 validate_config_git
 

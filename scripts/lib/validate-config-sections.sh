@@ -11,6 +11,13 @@ validate_config_dotfiles() {
     check_path git-pre-commit "$HOME/.config/githooks/pre-commit"
 }
 
+validate_config_tmux() {
+    section 'Tmux'
+    check_path tmux-tpm "$HOME/.tmux/plugins/tpm/tpm"
+    check_path tmux-plugin-resurrect "$HOME/.tmux/plugins/tmux-resurrect"
+    check_path tmux-plugin-continuum "$HOME/.tmux/plugins/tmux-continuum"
+}
+
 validate_config_home() {
     section 'Home layout'
     check_path appimages-dir "$HOME/AppImages"
