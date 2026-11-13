@@ -1,5 +1,9 @@
 # Kali setup scripts
 
+[![License: MIT](https://img.shields.io/github/license/garretpatten/kali-setup-scripts?style=flat-square)](./LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/garretpatten/kali-setup-scripts/test-runner.yaml?branch=master&label=Kali%20CI&logo=github&style=flat-square)](https://github.com/garretpatten/kali-setup-scripts/actions/workflows/test-runner.yaml)
+[![Platform: Kali Linux](https://img.shields.io/badge/platform-Kali%20Linux-367BF0?style=flat-square&logo=kalilinux&logoColor=white)](https://www.kali.org)
+
 Provisioning for a personal Kali Linux environment: install scripts under
 `src/scripts/install/`, dotfiles and system config under `src/scripts/config/`,
 orchestrated by `master.sh`. Kali is Debian-based, so apt and third-party Debian
