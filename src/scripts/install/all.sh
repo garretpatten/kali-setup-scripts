@@ -31,14 +31,11 @@ ASYNC_SCRIPTS=(
     dev/rustup.sh
     dev/cursor-cli.sh
     dev/lazydocker.sh
-    dev/yazi.sh
     dev/ollama.sh
     dev/semgrep.sh
     dev/ruby-gems.sh
     dev/vue-cli.sh
     dev/language-servers.sh
-    dev/go.sh
-    shell/ghostty.sh
     shell/meslo-nerd-font.sh
     shell/oh-my-posh.sh
     apps/hacking-repos.sh
@@ -75,7 +72,8 @@ fi
 
 echo "==> Setting up apt repositories..."
 for script in "${REPO_SCRIPTS[@]}"; do
-    REPO_PIDS+=("$(parallel_run_best_effort "$DIR/$script")")
+    parallel_run_best_effort "$DIR/$script"
+    REPO_PIDS+=("$!")
 done
 parallel_wait_pids_best_effort "repository setup" "${REPO_PIDS[@]}"
 
@@ -118,10 +116,18 @@ run_script "$DIR/dev/git-credential-libsecret.sh"
 
 echo "==> Initializing asynchronous downloads..."
 for script in "${ASYNC_SCRIPTS[@]}"; do
-    ASYNC_PIDS+=("$(parallel_run_best_effort "$DIR/$script")")
+    parallel_run_best_effort "$DIR/$script"
+    ASYNC_PIDS+=("$!")
 done
 parallel_wait_pids_best_effort "asynchronous tasks" "${ASYNC_PIDS[@]}"
 echo "==> Asynchronous tasks completed."
+
+# Go (apt), Ghostty, and Yazi need apt/dpkg; keep them out of the async
+# phase so only one apt/dpkg user runs at a time (concurrent apt hard-fails
+# on the dpkg lock).
+run_script "$DIR/dev/go.sh"
+run_script "$DIR/shell/ghostty.sh"
+run_script "$DIR/dev/yazi.sh"
 
 if is_desktop; then
     echo "==> Installing .deb packages..."

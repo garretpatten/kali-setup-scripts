@@ -11,7 +11,6 @@ parallel_run_best_effort() {
     local script="$1"
     ensure_temp_dir
     bash "$script" || true &
-    echo $!
 }
 
 parallel_wait_pids() {

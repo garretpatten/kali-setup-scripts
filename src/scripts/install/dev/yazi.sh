@@ -13,3 +13,4 @@ if ! dpkg-deb -I "$deb" >/dev/null 2>&1; then
 fi
 
 sudo dpkg -i "$deb" || true
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -f -y || true
