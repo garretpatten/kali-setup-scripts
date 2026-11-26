@@ -130,9 +130,22 @@ These are **not** provisioned by this repo (remove from old notes or other dotfi
 
 Symlinks and settings from `src/dotfiles` (submodule, read-only): `config/dotfiles.sh`
 symlinks each `config/<app>/` tree under `~/.config/` (including `zsh/` for OS-specific
-shell snippets); copies for shell home files and VS Code settings. Covers Neovim, btop,
-fastfetch, Kitty/Alacritty/Ghostty, Git, GNOME gsettings (skipped in CI without a GNOME
-session), UFW defaults and rules (LocalSend, Docker DNS, ufw-docker), home directory layout.
+shell snippets, plus `pip/` and `uv/` cooldown configs); copies `home/.npmrc`,
+`home/.cargo/config.toml` (per file — never the whole `.cargo` tree, because rustup
+owns `~/.cargo/bin`, `env`, and the registry), shell home files, and VS Code settings.
+Covers Neovim, btop, fastfetch, Kitty/Alacritty/Ghostty, Git, GNOME gsettings
+(skipped in CI without a GNOME session), UFW defaults and rules (LocalSend, Docker DNS,
+ufw-docker), home directory layout.
+
+The npm, pip, uv, and cargo copies install 7-day package supply-chain cooldowns
+(`min-release-age=7`, `uploaded-prior-to = P7D`, `exclude-newer = "7 days"`, and
+`registry.global-min-publish-age = "7 days"`). `validate-config` and
+`validate-config-only` assert those files are present and contain the cooldown
+settings. Kali publishes no official snapshot archive, so the apt cooldown kit in
+`src/dotfiles/system/apt-cooldown/` is **not** provisioned here. Review
+`apt list --upgradable` before upgrades, hold critical packages with
+`apt-mark hold`, and rely on the npm/pip/uv/cargo cooldowns for the main
+supply-chain exposure on this box.
 
 See [AGENTS.md](AGENTS.md) for contributor conventions, ShellCheck, and CI details.
 

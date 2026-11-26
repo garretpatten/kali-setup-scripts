@@ -1,0 +1,8 @@
+root = true
+
+# Shell style consumed by shfmt (CI Quality Checks) and editors.
+# shfmt reads these keys automatically; keep the declared style in sync with
+# the formatting produced by `shfmt -w`.
+[*.sh]
+indent_style = space
+indent_size = 4
