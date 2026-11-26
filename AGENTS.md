@@ -11,7 +11,10 @@ shortcuts are `npm run install:cli`, `npm run install:all`, `npm run config`, an
 `npm run all`. The `src/dotfiles` submodule is maintained separately. **Never edit,
 commit, or bump `src/dotfiles` from this repo** unless the user explicitly asks.
 Consume it read-only via `link_dotfiles_xdg_config_dirs` in `config/dotfiles.sh`
-(symlinks each `src/dotfiles/config/<app>/` under `~/.config/`) and targeted file copies.
+(symlinks each `src/dotfiles/config/<app>/` under `~/.config/`, including `pip/` and
+`uv/`) and targeted file copies (`home/.npmrc` and `home/.cargo/config.toml` per
+file — never symlink the whole `.cargo` tree). Do not provision
+`system/apt-cooldown/`; Kali has no official snapshot archive.
 `run-config.sh` and `master.sh` initialize/update submodules before running config.
 
 ## Repository standards
@@ -91,15 +94,19 @@ find src/scripts -name '*.sh' -print0 | xargs -0 shellcheck -x
 
 ### Other CI linters
 
-`.github/workflows/quality-checks.yaml` also runs Prettier, markdownlint, and yamllint on
-pull requests. Prettier and markdownlint are installed via `npm ci`; yamllint is a Python
-tool. Run the relevant tools when you touch those file types:
+`.github/workflows/quality-checks.yaml` also runs Prettier, markdownlint, yamllint, and
+shfmt on pull requests (changed files only). Prettier and markdownlint are installed via
+`npm ci`; yamllint is a Python tool. shfmt 3.10.0 reads the repo-root `.editorconfig`,
+which pins shell indentation to 4 spaces. Format with `shfmt -w`, never by hand, and do
+not switch files to shfmt's default tabs. Run the relevant tools when you touch those
+file types:
 
 ```bash
 npm ci
 npx prettier --check .
 npx markdownlint --ignore node_modules '**/*.md'
 yamllint .
+find src/scripts scripts -name '*.sh' -print0 | xargs -0 shfmt -d
 ```
 
 ### Test workflow

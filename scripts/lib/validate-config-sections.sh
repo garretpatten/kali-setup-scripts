@@ -11,6 +11,34 @@ validate_config_dotfiles() {
     check_path git-pre-commit "$HOME/.config/githooks/pre-commit"
 }
 
+validate_config_cooldown_configs() {
+    section 'Package cooldown configs'
+    check_path cooldown-npmrc "$HOME/.npmrc"
+    check_path cooldown-pip-conf "$HOME/.config/pip/pip.conf"
+    check_path cooldown-uv-toml "$HOME/.config/uv/uv.toml"
+    check_path cooldown-cargo-config "$HOME/.cargo/config.toml"
+    if grep -q 'min-release-age=7' "$HOME/.npmrc" 2>/dev/null; then
+        pass cooldown-npmrc-age 'min-release-age=7 in ~/.npmrc'
+    else
+        fail cooldown-npmrc-age 'expected min-release-age=7 in ~/.npmrc'
+    fi
+    if grep -q 'uploaded-prior-to' "$HOME/.config/pip/pip.conf" 2>/dev/null; then
+        pass cooldown-pip-age 'uploaded-prior-to in ~/.config/pip/pip.conf'
+    else
+        fail cooldown-pip-age 'expected uploaded-prior-to in ~/.config/pip/pip.conf'
+    fi
+    if grep -q 'exclude-newer' "$HOME/.config/uv/uv.toml" 2>/dev/null; then
+        pass cooldown-uv-age 'exclude-newer in ~/.config/uv/uv.toml'
+    else
+        fail cooldown-uv-age 'expected exclude-newer in ~/.config/uv/uv.toml'
+    fi
+    if grep -q 'global-min-publish-age' "$HOME/.cargo/config.toml" 2>/dev/null; then
+        pass cooldown-cargo-age 'global-min-publish-age in ~/.cargo/config.toml'
+    else
+        fail cooldown-cargo-age 'expected global-min-publish-age in ~/.cargo/config.toml'
+    fi
+}
+
 validate_config_tmux() {
     section 'Tmux'
     check_path tmux-tpm "$HOME/.tmux/plugins/tpm/tpm"
